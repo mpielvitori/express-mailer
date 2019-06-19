@@ -6,7 +6,7 @@ POST -> /email
 
 ```
 "message": {
-		"to": "martinpielvitori@gmail.com",
+		"to": "<TO_EMAIL>",
 		"subject": "My Subject",
 		"body": "My body"
 	},
