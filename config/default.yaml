@@ -1,0 +1,10 @@
+SERVICE_HOST: 0.0.0.0
+SERVICE_HTTP_PORT: 80
+transport:
+  service: Mailjet
+  username: <API_KEY>
+  password: <SECRET>
+email:
+  from: <FROM_EMAIL>
+templates:
+  sampleTemplate: sample.hbs
