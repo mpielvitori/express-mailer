@@ -6,9 +6,9 @@ const config = require('config');
  * Get transport
  * @return {nodemailer.Transport}
  */
-module.exports = async () => new Promise(async (resolve) => {
+module.exports = async () => {
   console.log(`Creating transport ${config.transport.service}`);
-  const trans = nodemailer.createTransport({
+  const transport = nodemailer.createTransport({
     service: config.transport.service,
     auth: {
       user: config.transport.username,
@@ -20,20 +20,20 @@ module.exports = async () => new Promise(async (resolve) => {
   //             + `${config.transport.username}`
   //             + `:${config.transport.password}`
   //             + `@${config.transport.host}`;
-  // const trans = nodemailer.createTransport(uri);
-  await new Promise((vresolve, vreject) => {
+  // const transport = nodemailer.createTransport(uri);
+  await new Promise((resolve, reject) => {
     console.log('Verify');
-    trans.verify((err) => {
+    transport.verify((err) => {
       if (err) {
         console.error(err);
-        return vreject(err);
+        return reject(err);
       }
 
       console.log('tranport works');
-      return vresolve();
+      return resolve();
     });
   });
 
   console.log('Connected to transport');
-  resolve(trans);
-});
+  return transport;
+};

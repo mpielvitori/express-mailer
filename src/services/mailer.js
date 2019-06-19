@@ -15,13 +15,11 @@ let transport;
 
 exports.send = async (req, res) => {
   console.info('Send Message ', req.body);
-  await sendInmediatly(
+  const result = await sendInmediatly(
     req.body.message,
     req.body.options || undefined,
   );
-  res.status(200).send({
-    message: 'OK!',
-  });
+  res.status(200).send(result);
 };
 
 /**
@@ -30,10 +28,7 @@ exports.send = async (req, res) => {
  */
 const getTransport = async function getTransport() {
   if (!transport) {
-    transport = await new Promise(async (resolve) => {
-      const trans = await initTransport();
-      return resolve(trans);
-    });
+    transport = await initTransport();
   }
 
   return transport;
@@ -46,7 +41,7 @@ const getTransport = async function getTransport() {
  * @return {Promise<void>}
  */
 const sendInmediatly = async function sendInmediatly(message, options = {}) {
-  const trans = await getTransport();
+  await getTransport();
 
   if (options.template && config.templates && config.templates[options.template]) {
     const source = fs.readFileSync(path.join(
@@ -66,7 +61,7 @@ const sendInmediatly = async function sendInmediatly(message, options = {}) {
     };
   }
 
-  const info = await trans.sendMail(message);
+  const info = await transport.sendMail(message);
 
   console.info(`Mail sent as ${info.messageId}`);
 
